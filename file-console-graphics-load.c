@@ -85,7 +85,7 @@ gint32 load_image (const gchar *filename,
         }
 
         guchar dest[64];
-        load_func((const guchar *)buf, dest);
+        load_func ((const guchar *)buf, dest);
         
         /*
         guint d = 0;

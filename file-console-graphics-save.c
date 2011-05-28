@@ -80,30 +80,8 @@ gboolean save_image (const gchar *filename,
         {
             gimp_pixel_rgn_get_rect (&pixel_rgn, buf,
                                      col * 8, row * 8, 8, 8);
-
-            guint pix = 0;
-            gint i, j;
-            for (i = 0; i < 16; i+=2)
-            {
-                guchar bp1, bp2, bp3, bp4;
-                bp1 = bp2 = bp3 = bp4 = 0;
-                for (j = 0; j < 8; j++)
-                {
-                    if (buf[pix] & 1)
-                        bp1 = bp1 | (0x80 >> j);
-                    if (buf[pix] & 2)
-                        bp2 = bp2 | (0x80 >> j);
-                    if (buf[pix] & 4)
-                        bp3 = bp3 | (0x80 >> j);
-                    if (buf[pix] & 8)
-                        bp4 = bp4 | (0x80 >> j);
-                    pix++;
-                }
-                dest[i]    = bp1;
-                dest[i+1]  = bp2;
-                dest[i+16] = bp3;
-                dest[i+17] = bp4;
-            }
+            
+            save_func ((const guchar *)buf, dest);
 
             if (!WriteTileOK(outfile, dest))
             {
