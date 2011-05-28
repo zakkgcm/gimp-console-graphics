@@ -156,6 +156,7 @@ static void run (const gchar *name,
     {
         const gchar *filename;
         TileSaveFunc save_func;
+        gint max_colors;
 
         gint32 image_ID;
         gint32 orig_image_ID;
@@ -190,7 +191,7 @@ static void run (const gchar *name,
                         break;
                     }
                     
-                    if (!save_dialog (filename, &save_func))
+                    if (!save_dialog (filename, &save_func, &max_colors))
                         status = GIMP_PDB_CANCEL;
                 }
                 break;
@@ -207,7 +208,7 @@ static void run (const gchar *name,
         {
             if (!save_image (param[3].data.d_string, 
                              image_ID, drawable_ID, orig_image_ID,
-                             FormatList[0].save_func, &error))
+                             save_func, max_colors, &error))
             {
                 status = GIMP_PDB_EXECUTION_ERROR;
             }

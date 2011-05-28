@@ -23,6 +23,7 @@ gboolean save_image (const gchar *filename,
                      gint32 drawable_ID,
                      gint32 orig_image_ID,
                      TileSaveFunc save_func,
+                     gint max_colors,
                      GError **error)
 {
     FILE *outfile;
@@ -49,10 +50,10 @@ gboolean save_image (const gchar *filename,
     }
 
     gimp_image_get_colormap (image_ID, &colors);
-    if (colors > 16)
+    if (colors > max_colors)
     {
         g_message("Cannot save Indexed color images with more than "
-                  "16 colors. Reduce number of colors first.\n");
+                  "%d colors. Reduce number of colors first.\n", max_colors);
         return FALSE;
     }
 
@@ -126,7 +127,8 @@ GimpPDBStatusType sanity_check (const gchar *filename,
 }
 
 gboolean save_dialog (const gchar *filename,
-                      TileSaveFunc *func_out)
+                      TileSaveFunc *func_out,
+                      gint *max_colors_out)
 {
     GtkWidget *dialog, *format_sel;
     gboolean save;
@@ -156,7 +158,11 @@ gboolean save_dialog (const gchar *filename,
         gint fmtidx = format_def_from_string ((const gchar *)gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(format_sel)));
         
         if (fmtidx >= 0)
+        {
             *func_out = FormatList[fmtidx].save_func;
+            *max_colors_out = FormatList[fmtidx].max_colors;
+        }
+
     } 
     
     gtk_widget_destroy (dialog);

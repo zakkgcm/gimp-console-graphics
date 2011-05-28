@@ -8,7 +8,8 @@ GimpPDBStatusType sanity_check (const gchar *filename,
                                 GError **error);
 
 gboolean save_dialog (const gchar *filename,
-                      TileSaveFunc *func_out);
+                      TileSaveFunc *func_out,
+                      gint *max_colors_out);
 
 gboolean bad_bounds_dialog (void);
 
@@ -17,4 +18,5 @@ gint32 save_image (const gchar *filename,
                    gint32 drawable_ID,
                    gint32 orig_image_ID,
                    TileSaveFunc save_func,
+                   gint max_colors,
                    GError **error);

@@ -10,13 +10,14 @@ void save_snes_4bpp_tile (const guchar src[], guchar dest[]);
 typedef struct _Formats
 {
     const gchar *key;
+    gint  max_colors;
     TileLoadFunc load_func;
     TileSaveFunc save_func;
 } Formats;
 
 static Formats FormatList[] = 
 {
-    { "SNES 4BPP", &load_snes_4bpp_tile, &save_snes_4bpp_tile },
+    { "SNES 4BPP", 16, &load_snes_4bpp_tile, &save_snes_4bpp_tile },
 };
 gint format_def_from_string (const gchar *string);
 
